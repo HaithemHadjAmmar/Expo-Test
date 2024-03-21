@@ -6,10 +6,9 @@ const PersonTable = () => {
   const [data, setData] = useState(null); // Initialize state for data
 
   useEffect(() => {
-    // Fetch data from backend API when the component mounts
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/users');
+        const response = await axios.get('http://10.0.2.2:8000/api/users');
         setData(response.data); // Update state with fetched data
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -21,14 +20,17 @@ const PersonTable = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Liste des personnes :</Text>
+      <Text style={styles.title}>Liste des personnes :</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.person}>
-            <Text>{item.name}</Text>
-            {/* Add other person details here */}
+            <Text>{item.nom}</Text>
+            <Text>{item.prénom}</Text>
+            <Text>{item.email}</Text>
+            <Text>{item.date_de_naissance}</Text>
+            <Text>{item.sexe}</Text>
           </View>
         )}
       />
@@ -44,10 +46,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+  title: {
+    color: 'black', 
+    fontWeight: '700',
+    justifyContent: 'flex-start',
+    paddingTop :'8%', 
+    paddingBottom: '5%',
+  },
   person: {
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 1,
+    color: 'black',
+    marginBottom: '2%',
+    padding: '2%',
+    borderWidth: 2,
     borderColor: '#ccc',
     borderRadius: 5,
   },
