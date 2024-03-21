@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import axios from 'axios';
 
 const PersonTable = () => {
@@ -20,20 +20,25 @@ const PersonTable = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Liste des personnes :</Text>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.person}>
-            <Text>{item.nom}</Text>
-            <Text>{item.prénom}</Text>
-            <Text>{item.email}</Text>
-            <Text>{item.date_de_naissance}</Text>
-            <Text>{item.sexe}</Text>
-          </View>
-        )}
-      />
+      <Text style={styles.title}>Person Table</Text>
+      {data ? (
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.person}>
+             <Text style={styles.personText}>id: {item.id}</Text>
+              <Text style={styles.personText}>Nom: {item.nom}</Text>
+              <Text style={styles.personText}>Prénom: {item.prénom}</Text>
+              <Text style={styles.personText}>Email: {item.email}</Text>
+              <Text style={styles.personText}>Date de naissance: {item.date_de_naissance}</Text>
+              <Text style={styles.personText}>Sexe: {item.sexe}</Text>
+            </View>
+          )}
+        />
+      ) : (
+        <Text style={styles.noDataText}>No data available</Text>
+      )}
     </View>
   );
 };
@@ -41,25 +46,32 @@ const PersonTable = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#fff',
   },
   title: {
-    color: 'black', 
+    color: 'black',
     fontWeight: '700',
-    justifyContent: 'flex-start',
-    paddingTop :'8%', 
-    paddingBottom: '5%',
+    paddingTop: 20,
+    paddingBottom: 10,
+    fontSize: 20,
+    textAlign: 'center',
   },
   person: {
-    color: 'black',
     marginBottom: '2%',
     padding: '2%',
     borderWidth: 2,
     borderColor: '#ccc',
     borderRadius: 5,
+  },
+  personText: {
+    color: 'black',
+    marginBottom: 5,
+  },
+  noDataText: {
+    color: 'gray',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 
