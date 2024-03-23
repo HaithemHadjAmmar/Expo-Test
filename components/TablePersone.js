@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const PersonTable = () => {
   const [data, setData] = useState(null); // Initialize state for data
-  const [loading, setLoading] = useState(true); // Initialize state for loading indicator
+  const [loading, setLoading] = useState(true); // Initialize loading state
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +14,7 @@ const PersonTable = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setLoading(false); // Update loading state regardless of success or failure
+        setLoading(false); // Set loading to false regardless of success or failure
       }
     };
 
@@ -24,11 +24,11 @@ const PersonTable = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Liste des personnes:</Text>
-      {loading ? (
-        <View style={styles.activityIndicatorContainer}>
+      {loading ? ( // Check if loading
+        <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
-      ) : data ? (
+      ) : data && data.length > 0 ? ( // Check if data is available
         data.map((person) => (
           <View key={person.id} style={styles.card}>
             <Text style={styles.personText}>ID: {person.id}</Text>
@@ -57,15 +57,15 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700',
     fontSize: 24,
-    marginTop: '10%',
-    marginBottom: '5%',
+    marginTop: '2%',
+    marginBottom: '10%',
   },
   card: {
     backgroundColor: '#f0f0f0',
     width: '90%',
     padding: '5%',
     marginBottom: '5%',
-    borderRadius: '2%',
+    borderRadius: 10,
     elevation: 5,
   },
   personText: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: '5%',
   },
-  activityIndicatorContainer: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
