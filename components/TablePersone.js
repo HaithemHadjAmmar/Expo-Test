@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 
 const PersonTable = () => {
   const [data, setData] = useState(null); // Initialize state for data
+  const [loading, setLoading] = useState(true); // Initialize state for loading indicator
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,6 +13,8 @@ const PersonTable = () => {
         setData(response.data); // Update state with fetched data
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false); // Update loading state regardless of success or failure
       }
     };
 
@@ -20,8 +23,12 @@ const PersonTable = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Person Table</Text>
-      {data ? (
+      <Text style={styles.title}>Liste des personnes:</Text>
+      {loading ? (
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      ) : data ? (
         data.map((person) => (
           <View key={person.id} style={styles.card}>
             <Text style={styles.personText}>ID: {person.id}</Text>
@@ -33,7 +40,7 @@ const PersonTable = () => {
           </View>
         ))
       ) : (
-        <Text style={styles.noDataText}>No data available</Text>
+        <Text style={styles.noDataText}>Aucune donnée disponible</Text>
       )}
     </ScrollView>
   );
@@ -58,18 +65,23 @@ const styles = StyleSheet.create({
     width: '90%',
     padding: '5%',
     marginBottom: '5%',
-    borderRadius: 10,
+    borderRadius: '2%',
     elevation: 5,
   },
   personText: {
     color: 'black',
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: '2%',
   },
   noDataText: {
     color: 'gray',
     fontSize: 16,
     marginTop: '5%',
+  },
+  activityIndicatorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
