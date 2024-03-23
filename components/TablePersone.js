@@ -10,7 +10,7 @@ const PersonTable = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://10.0.2.2:8000/api/users');
-        setData(response.data); // Update state with fetched data
+        setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -24,7 +24,7 @@ const PersonTable = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Liste des personnes:</Text>
-      {loading ? ( // Check if loading
+      {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
